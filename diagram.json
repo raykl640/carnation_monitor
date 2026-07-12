@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "author": "Ray Lukorito",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -4.76, "attrs": {} },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": 29.1,
+      "left": -101.4,
+      "attrs": { "temperature": "23.7", "humidity": "57.5" }
+    },
+    {
+      "type": "wokwi-gas-sensor",
+      "id": "gas1",
+      "top": 72.8,
+      "left": -227.5,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": 44.8,
+      "left": 168.8,
+      "attrs": { "pins": "i2c" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "gas1:VCC", "dht1:VCC", "red", [ "v38.4", "h87.3" ] ],
+    [ "gas1:GND", "dht1:GND", "black", [ "v19.2", "h106.4" ] ],
+    [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "gas1:AOUT", "esp:34", "blue", [ "v0", "h115.2", "v-96" ] ],
+    [ "esp:21", "lcd1:SDA", "green", [ "h9.6", "v28.8" ] ],
+    [ "esp:22", "lcd1:SCL", "green", [ "h48", "v67.2" ] ],
+    [ "esp:3V3", "dht1:VCC", "red", [ "h-47.85", "v172.8", "h-38.4" ] ],
+    [ "lcd1:GND", "esp:GND.2", "black", [ "h-19.2", "v-48" ] ],
+    [ "esp:5V", "lcd1:VCC", "red", [ "h0.15", "v19.2", "h153.6", "v-134.4" ] ],
+    [ "dht1:SDA", "esp:4", "green", [ "v96", "h192.1", "v-96" ] ]
+  ],
+  "dependencies": {}
+}
