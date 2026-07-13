@@ -7,12 +7,12 @@ InfluxDB Cloud as time-series data, which is visualised on a live dashboard.
 
 ## 1. Device Architecture
 
-| Component | Role | Connection |
-|---|---|---|
-| ESP32 DevKit V1 | Microcontroller, WiFi, HTTP client | — |
-| DHT22 | Temperature & humidity sensor | Data → GPIO4, VCC → 3V3, GND → GND |
-| MQ-5 gas sensor | Air quality / gas concentration sensor | AOUT → GPIO34 (ADC), VCC → 5V, GND → GND |
-| 16x2 LCD (I2C backpack) | Local status display | SDA → GPIO21, SCL → GPIO22, VCC → 5V, GND → GND |
+| Component | Role |
+|---|---|
+| ESP32 DevKit V1 | Microcontroller, WiFi, HTTP client |
+| DHT22 | Temperature & humidity sensor
+| MQ-5 gas sensor | Air quality / gas concentration sensor |
+| 16x2 LCD (I2C backpack) | Local status display |
 
 Every 20 seconds the firmware:
 1. Reads temperature and humidity from the DHT22, and a raw analog gas
@@ -43,7 +43,7 @@ InfluxDB write OK
 
 > Note: the simulated DHT22's default reading was left at a cold value
 > (`-23.7 °C`), which is why the `temp_status` field reads `LOW` in the
-> screenshots below — this exercises the low-temperature alert branch of
+> screenshots below, this exercises the low-temperature alert branch of
 > the firmware logic.
 
 ## 3. Firmware
@@ -53,18 +53,6 @@ All firmware files are included in this repository:
 - [`sketch.ino`](./sketch.ino) — main Arduino sketch (WiFi, sensors, LCD, InfluxDB write)
 - [`diagram.json`](./diagram.json) — Wokwi wiring diagram
 - [`libraries.txt`](./libraries.txt) — Arduino libraries used in the simulation
-
-Before flashing/running, set your own credentials at the top of `sketch.ino`:
-
-```cpp
-const char* WIFI_SSID     = "Wokwi-GUEST";
-const char* WIFI_PASSWORD = "";
-
-const char* INFLUX_URL    = "https://<your-cluster>.influxdata.com";
-const char* INFLUX_ORG    = "Dev_team";
-const char* INFLUX_BUCKET = "carnation_monitor";
-const char* INFLUX_TOKEN  = "PASTE_YOUR_INFLUXDB_API_TOKEN_HERE";
-```
 
 ## 4. Time-Series Storage — InfluxDB Cloud
 
@@ -86,16 +74,6 @@ Writes are performed with an HTTPS `POST` to the InfluxDB v2 write API
 
 ### Proof of stored data
 
-Query used (InfluxDB SQL, via Data Explorer):
-
-```sql
-SELECT *
-FROM "carnation_monitor"
-WHERE
-  time >= now() - interval '3 hours'
-  AND ("air_quality" IS NOT NULL OR "hum_status" IS NOT NULL OR "humidity" IS NOT NULL)
-  AND "device" IN ('esp32_01')
-```
 
 ![SQL query editor in InfluxDB Data Explorer](images/02_influxdb_sql_query_editor.png)
 
@@ -134,30 +112,4 @@ All three panels are windowed to the same 30-day range and share the same
 
 ![Dashboard — Temperature panel](images/10_dashboard_temperature_panel.png)
 
-**Public dashboard link:** _add your InfluxDB Cloud shareable dashboard link
-here (Dashboard → Share → Create Public Link), or leave the screenshots
-above as evidence if a public link cannot be generated on your account tier._
 
-## 6. Repository Contents
-
-```
-.
-├── README.md          # this document
-├── sketch.ino          # ESP32 firmware
-├── diagram.json         # Wokwi circuit diagram
-├── libraries.txt        # Arduino libraries required by the sketch
-└── images/              # screenshots referenced above
-```
-
-## 7. How to Reproduce
-
-1. Open the [Wokwi project](https://wokwi.com/projects/468257829910217729)
-   (or physically wire an ESP32, DHT22, MQ-5, and I2C LCD as described in
-   Section 1).
-2. In InfluxDB Cloud, create a bucket named `carnation_monitor` and
-   generate an API token with write access.
-3. Paste your WiFi and InfluxDB credentials into `sketch.ino`.
-4. Run the simulation (or flash the physical board) and confirm
-   `InfluxDB write OK` appears in the serial monitor.
-5. In InfluxDB Cloud, build a dashboard with panels for `temperature`,
-   `humidity`, and `air_quality`, filtered to `device = esp32_01`.
