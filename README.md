@@ -114,9 +114,22 @@ All three panels are windowed to the same 30-day range and share the same
 
 ## 6. Proof of Collaboration
 
-The team met to discuss the project requirements, divide tasks, and work
-through implementation together.
+### Group Details
+
+**Group 2**  
+**Group Name:** Binary Force
+
+| No. | Student No. | Name |
+|----:|------------:|------|
+| 1 | 162396 | Ojuka Amy Asembo |
+| 2 | 168322 | Mokoit Phoebe Saniam |
+| 3 | 169786 | Agufana Nicole Kadesa |
+| 4 | 168110 | Lukorito Ray Khayota |
+| 5 | 169393 | Bilgis Nthoki Nzembi |
+| 6 | 162156 | Matthew Keingatti Nguithi |
+
+### Proof of Collaboration
+
+The team met to discuss the project requirements, divide tasks, and work through the implementation together.
 
 ![Group meeting to discuss and complete the project](images/WhatsApp%20Image%202026-07-13%20at%2017.41.01.jpeg)
-
-
